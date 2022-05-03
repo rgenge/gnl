@@ -6,13 +6,13 @@
 #include "get_next_line.h"
 #include "get_next_line.c"
 #include "get_next_line_utils.c"
-//#define BUFFER_SIZE 2
+#define BUFFER_SIZE 2
 
 int main(void)
 {
 int fd2;
 // int  sz;
-char *c = (char *) calloc(100, sizeof(char));
+char *c ;
 
 fd2 = open("ola.txt", O_RDONLY);
 if (fd2 < 0) { perror("r1"); exit(1); }
@@ -24,9 +24,12 @@ if (fd2 < 0) { perror("r1"); exit(1); }
 
 c = get_next_line(fd2);
 printf("%s\n", c);
-c = get_next_line(fd2);
-printf("%s\n", c);
-c = get_next_line(fd2);
-printf("%s\n", c);
+free(c);
+//c = get_next_line(fd2);
+//printf("%s\n", c);
+//free(c);
+//c = get_next_line(fd2);
+//printf("%s\n", c);
+//free(c);
 
 }

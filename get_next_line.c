@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 03:08:03 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/05/01 20:45:53 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/05/03 19:39:18 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,13 @@ char	*get_line(char	*text)
 		line[i] = text[i];
 		i++;
 	}
-	line[i] = '\n';
-	line[i+1] = '\0';
+	if(text[i] == '\n')
+	{
+		line[i] = '\n';
+		line[i+1] = '\0';
+	}
+	else
+		line = NULL;
 	return (line);
 }
 
@@ -81,5 +86,8 @@ char	*get_newtext(char	*text)
 	while (text[i])
 		newtext[j++] = text[i++];
 	newtext[j] = '\0';
+	if(newtext[0] == '\0')
+		return (NULL);
+	free(text);
 	return (newtext);
 }

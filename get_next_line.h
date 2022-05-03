@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 03:07:55 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/05/01 17:17:09 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/05/03 19:28:13 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 # include <stdlib.h>
 # include <unistd.h>
-// #define BUFFER_SIZE 2
+#define BUFFER_SIZE 2
 
 char	*ft_strjoin(char *s1, char *s2);
 char	*get_next_line(int fd);
