@@ -6,30 +6,24 @@
 #include "get_next_line.h"
 #include "get_next_line.c"
 #include "get_next_line_utils.c"
-#define BUFFER_SIZE 2
+ #define BUFFER_SIZE 5
 
 int main(void)
 {
-int fd2;
-// int  sz;
+int fd;
 char *c ;
 
-fd2 = open("ola.txt", O_RDONLY);
-if (fd2 < 0) { perror("r1"); exit(1); }
-// sz = read(fd2, c, 20);
-//printf("called read(% d, c, 10). returned that"
-//      " %d bytes were read.\n", fd2, sz);
- // c[sz] = '\0';
-//printf("Those bytes are as follows: %s \n", c);
+fd = open("ola.txt", O_RDONLY);
 
-c = get_next_line(fd2);
+
+c = get_next_line(fd);
 printf("%s\n", c);
 free(c);
-//c = get_next_line(fd2);
-//printf("%s\n", c);
-//free(c);
-//c = get_next_line(fd2);
-//printf("%s\n", c);
-//free(c);
+c = get_next_line(fd);
+printf("%s\n", c);
+free(c);
+c = get_next_line(fd);
+printf("%s\n", c);
+free(c);
 
 }
