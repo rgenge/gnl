@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 03:08:03 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/05/04 23:10:15 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/05/04 23:07:21 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
 	char			*buffer;
-	static char		*text;
+	static char		*text[10000];
 	int				read_size;
 	char			*line;
 
@@ -23,18 +23,18 @@ char	*get_next_line(int fd)
 		return (0);
 	buffer = malloc(sizeof(char *) * (BUFFER_SIZE + 1));
 	read_size = 1;
-	while (read_size > 0 && ft_strchr(text, '\n') == NULL)
+	while (read_size > 0 && ft_strchr(text[fd], '\n') == NULL)
 	{
 		read_size = read(fd, buffer, BUFFER_SIZE);
 		if (read_size > 0)
 		{
 			buffer[read_size] = '\0';
-			text = ft_strjoin(text, buffer);
+			text[fd] = ft_strjoin(text[fd], buffer);
 		}
 	}
 	free(buffer);
-	line = get_line (text);
-	text = get_newtext (text);
+	line = get_line (text[fd]);
+	text[fd] = get_newtext (text[fd]);
 	return (line);
 }
 

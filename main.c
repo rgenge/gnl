@@ -16,6 +16,7 @@ char *c ;
 fd = open("ola.txt", O_RDONLY);
 
 
+
 c = get_next_line(fd);
 printf("%s\n", c);
 free(c);
