@@ -15,7 +15,7 @@
 char	*get_next_line(int fd)
 {
 	char			*buffer;
-	static char		*text[10000];
+	static char		*text[257];
 	int				read_size;
 	char			*line;
 

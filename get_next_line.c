@@ -26,11 +26,13 @@ char	*get_next_line(int fd)
 	while (read_size > 0 && ft_strchr(text, '\n') == NULL)
 	{
 		read_size = read(fd, buffer, BUFFER_SIZE);
-		if (read_size > 0)
+		if (read_size < 0)
 		{
-			buffer[read_size] = '\0';
-			text = ft_strjoin(text, buffer);
-		}
+			free(buffer);
+			return (NULL);
+		}				
+		buffer[read_size] = '\0';
+		text = ft_strjoin(text, buffer);
 	}
 	free(buffer);
 	line = get_line (text);
@@ -51,6 +53,8 @@ char	*get_line(char	*text)
 	while (text[size_line] != '\n' && text[size_line] != '\0')
 		size_line++;
 	line = (char *)malloc((sizeof(char) * (size_line + 2)));
+	if (!line)
+		return (NULL);
 	while (text[i] != '\n' && text[i])
 	{
 		line[i] = text[i];
@@ -70,14 +74,16 @@ char	*get_newtext(char	*text)
 
 	i = 0;
 	j = 0;
-	if (!text)
+	while (text[i] && text[i] != '\n')
+		i++;
+	if (!text[i])
 	{
 		free(text);
 		return (NULL);
 	}
-	while (text[i] && text[i] != '\n')
-		i++;
 	newtext = (char *)malloc((sizeof(char) * (ft_strlen(text) - i + 1)));
+	if (!newtext)
+		return (NULL);
 	if (text[i] == '\n')
 		i++;
 	while (text[i])
