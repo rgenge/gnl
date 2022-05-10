@@ -6,7 +6,7 @@
 /*   By: acosta-a <acosta-a@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 03:08:03 by acosta-a          #+#    #+#             */
-/*   Updated: 2022/05/04 23:07:21 by acosta-a         ###   ########.fr       */
+/*   Updated: 2022/05/09 15:34:01 by acosta-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,35 @@ char	*get_next_line(int fd)
 	int				read_size;
 	char			*line;
 
-	if (fd < 0 || fd > 999 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 256 || BUFFER_SIZE <= 0)
 		return (0);
-	buffer = malloc(sizeof(char *) * (BUFFER_SIZE + 1));
+	buffer = check_buffer();
 	read_size = 1;
 	while (read_size > 0 && ft_strchr(text[fd], '\n') == NULL)
 	{
 		read_size = read(fd, buffer, BUFFER_SIZE);
-		if (read_size > 0)
+		if (read_size == -1)
 		{
-			buffer[read_size] = '\0';
-			text[fd] = ft_strjoin(text[fd], buffer);
+			free(buffer);
+			return (NULL);
 		}
+		buffer[read_size] = '\0';
+		text[fd] = ft_strjoin(text[fd], buffer);
 	}
 	free(buffer);
 	line = get_line (text[fd]);
 	text[fd] = get_newtext (text[fd]);
 	return (line);
+}
+
+char	*check_buffer(void)
+{
+	char	*buffer;
+
+	buffer = malloc(sizeof(char *) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (NULL);
+	return (buffer);
 }
 
 char	*get_line(char	*text)
@@ -50,7 +62,11 @@ char	*get_line(char	*text)
 		return (NULL);
 	while (text[size_line] != '\n' && text[size_line] != '\0')
 		size_line++;
-	line = (char *)malloc((sizeof(char) * (size_line + 2)));
+	if (text[size_line] == '\n')
+		size_line++;
+	line = (char *)malloc((sizeof(char) * (size_line + 1)));
+	if (!line)
+		return (NULL);
 	while (text[i] != '\n' && text[i])
 	{
 		line[i] = text[i];
@@ -70,14 +86,16 @@ char	*get_newtext(char	*text)
 
 	i = 0;
 	j = 0;
-	if (!text)
+	while (text[i] && text[i] != '\n')
+		i++;
+	if (!text[i])
 	{
 		free(text);
 		return (NULL);
 	}
-	while (text[i] && text[i] != '\n')
-		i++;
 	newtext = (char *)malloc((sizeof(char) * (ft_strlen(text) - i + 1)));
+	if (!newtext)
+		return (NULL);
 	if (text[i] == '\n')
 		i++;
 	while (text[i])
